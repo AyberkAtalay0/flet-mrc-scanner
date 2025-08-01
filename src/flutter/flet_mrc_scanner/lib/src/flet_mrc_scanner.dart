@@ -34,7 +34,7 @@ class _FletMrcScannerControlState extends State<FletMrcScannerControl> {
         onDetect: (barcodeCapture) {
           final barcode = barcodeCapture.barcodes.first.rawValue;
           if (barcode != null) {
-            widget.control.dispatchEvent("scan", {"value": barcode});
+            widget.control.triggerEvent("scan", {"value": barcode});
           }
         },
       ),
