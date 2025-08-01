@@ -1,9 +1,9 @@
 import 'package:flet/flet.dart';
 import 'flet_mrc_scanner.dart';
 
-CreateControlFactory createControl = (controlType) {
-  if (controlType.type == "flet_mrc_scanner") {
-    return (parent, control) => FletMrcScannerControl(parent: parent, control: control);
+CreateControlFactory createControl = (args) {
+  if (args.control.type == "flet_mrc_scanner") {
+    return FletMrcScannerControl(parent: args.parent, control: args.control);
   }
   return null;
 };

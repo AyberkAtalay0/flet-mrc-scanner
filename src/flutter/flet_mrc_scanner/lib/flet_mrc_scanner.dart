@@ -1,3 +1,6 @@
-library flet_mrc_scanner;
+import 'package:flet/flet.dart';
+import 'src/create_control.dart';
 
-export "src/extension.dart" show Extension;
+void ensureInitialized() {
+  registerControls("flet_mrc_scanner", createControl);
+}
