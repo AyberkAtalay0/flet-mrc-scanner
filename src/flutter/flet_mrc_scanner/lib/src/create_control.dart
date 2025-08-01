@@ -1,19 +1,9 @@
 import 'package:flet/flet.dart';
-
 import 'flet_mrc_scanner.dart';
 
-CreateControlFactory createControl = (CreateControlArgs args) {
-  switch (args.control.type) {
-    case "flet_mrc_scanner":
-      return FletMrcScannerControl(
-        parent: args.parent,
-        control: args.control,
-      );
-    default:
-      return null;
+CreateControlFactory createControl = (ControlType type) {
+  if (type.type == "mrcscanner") {
+    return (parent, control) => FletMrcScannerControl(parent: parent, control: control);
   }
+  return null;
 };
-
-void ensureInitialized() {
-  // nothing to initialize
-}

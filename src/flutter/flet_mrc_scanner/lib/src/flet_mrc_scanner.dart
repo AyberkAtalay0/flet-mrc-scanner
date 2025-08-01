@@ -1,7 +1,8 @@
-import 'package:flet/flet.dart';
 import 'package:flutter/material.dart';
+import 'package:flet/flet.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
-class FletMrcScannerControl extends StatelessWidget {
+class FletMrcScannerControl extends StatefulWidget {
   final Control? parent;
   final Control control;
 
@@ -12,11 +13,39 @@ class FletMrcScannerControl extends StatelessWidget {
   });
 
   @override
+  State<FletMrcScannerControl> createState() => _FletMrcScannerControlState();
+}
+
+class _FletMrcScannerControlState extends State<FletMrcScannerControl> {
+  late MobileScannerController scannerController;
+
+  @override
+  void initState() {
+    super.initState();
+    scannerController = MobileScannerController();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String text = control.attrString("value", "")!;
-    Widget myControl = Text(text);
+    return constrainedControl(
+      context,
+      MobileScanner(
+        controller: scannerController,
+        onDetect: (barcodeCapture) {
+          final barcode = barcodeCapture.barcodes.first.rawValue;
+          if (barcode != null) {
+            widget.control.dispatchEvent("scan", {"value": barcode});
+          }
+        },
+      ),
+      widget.parent,
+      widget.control,
+    );
+  }
 
-
-    return constrainedControl(context, myControl, parent, control);
+  @override
+  void dispose() {
+    scannerController.dispose();
+    super.dispose();
   }
 }

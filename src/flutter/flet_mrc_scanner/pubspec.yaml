@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   flet: 0.28.3
+  mobile_scanner: ^5.0.1 
   flutter:
     sdk: flutter
 
