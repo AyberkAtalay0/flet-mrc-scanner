@@ -1,0 +1,1 @@
+from flet_mrc_scanner.flet_mrc_scanner import FletMrcScanner
