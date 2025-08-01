@@ -1,9 +1,9 @@
-from flet.core.constrained_control import ConstrainedControl
+from flet.core.control import Control
 
-class FletMrcScanner(ConstrainedControl):
+class FletMrcScanner(Control):
     def __init__(self, on_scan=None, **kwargs):
         super().__init__(**kwargs)
-        self.on_scan = on_scan
+        self._on_scan = on_scan
 
     def _get_control_name(self):
         return "flet_mrc_scanner"

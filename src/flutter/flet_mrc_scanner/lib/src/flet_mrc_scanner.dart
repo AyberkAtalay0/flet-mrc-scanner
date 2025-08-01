@@ -1,51 +1,33 @@
-import 'package:flutter/material.dart';
 import 'package:flet/flet.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class FletMrcScannerControl extends StatefulWidget {
-  final Control? parent;
-  final Control control;
+class FletMrcScannerService extends FletService {
+  FletMrcScannerService({required super.control});
 
-  const FletMrcScannerControl({
-    super.key,
-    required this.parent,
-    required this.control,
-  });
+  late MobileScannerController controller;
 
   @override
-  State<FletMrcScannerControl> createState() => _FletMrcScannerControlState();
-}
+  void init() {
+    super.init();
+    controller = MobileScannerController();
+    debugPrint("FletMrcScannerService.init");
 
-class _FletMrcScannerControlState extends State<FletMrcScannerControl> {
-  late MobileScannerController scannerController;
-
-  @override
-  void initState() {
-    super.initState();
-    scannerController = MobileScannerController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return constrainedControl(
-      context,
-      MobileScanner(
-        controller: scannerController,
-        onDetect: (barcodeCapture) {
-          final barcode = barcodeCapture.barcodes.first.rawValue;
-          if (barcode != null) {
-            widget.control.triggerEvent("scan", {"value": barcode});
-          }
-        },
-      ),
-      widget.parent,
-      widget.control,
-    );
+    control.view = (context) => MobileScanner(
+          controller: controller,
+          onDetect: (barcodeCapture) {
+            final value = barcodeCapture.barcodes.first.rawValue;
+            if (value != null) {
+              control.triggerEvent("scan", {"value": value});
+            }
+          },
+        );
   }
 
   @override
   void dispose() {
-    scannerController.dispose();
+    debugPrint("FletMrcScannerService.dispose");
+    controller.dispose();
     super.dispose();
   }
 }
